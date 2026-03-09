@@ -54,7 +54,7 @@ const updateProperty = async (req, res) => {
   try {
     const updatedProperty = await Property.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
     if (updatedProperty) {
-      return res.status(200).json({ message: "Updated property successfully", output: updatedProperty })
+      return res.status(200).json(updatedProperty)
     }
     return res.status(404).json({ error: "No property to update" })
   } catch (e) {
