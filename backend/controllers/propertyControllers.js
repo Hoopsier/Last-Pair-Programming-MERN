@@ -2,12 +2,21 @@ const Property = require("../models/propertyModel");
 
 // GET /api/properties
 const getAllProperties = async (req, res) => {
-  res.send("getAllProperties");
+  const properties = Property.find({})
+  res.status(200).json(properties)
 };
 
 // POST /api/properties
 const createProperty = async (req, res) => {
-  res.send("createProperty");
+  try {
+    const newProperty = await Property.create({ ...req.body })
+    res.status(201).json(newProperty)
+  } catch (e) {
+    res.status(401).json({
+      message: "Failed to create property",
+      error: `ERROR posting property: ${e}`
+    })
+  }
 };
 
 // GET /api/properties/:propertyId
