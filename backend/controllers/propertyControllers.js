@@ -21,7 +21,7 @@ const createProperty = async (req, res) => {
 
 // GET /api/properties/:propertyId
 const getPropertyById = async (req, res) => {
-  res.send("getPropertyById");
+ 
 };
 
 // PUT /api/properties/:propertyId
