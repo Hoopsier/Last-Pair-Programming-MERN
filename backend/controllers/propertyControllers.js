@@ -2,8 +2,13 @@ const Property = require("../models/propertyModel");
 
 // GET /api/properties
 const getAllProperties = async (req, res) => {
-  const properties = Property.find({})
-  res.status(200).json(properties)
+  try {
+    const properties = await Property.find({})
+    res.status(200).json(properties)
+  }
+  catch (e) {
+    res.status(500).json({ message: "Failed to retrieve jobs" });
+  }
 };
 
 // POST /api/properties
