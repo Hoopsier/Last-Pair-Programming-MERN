@@ -1,5 +1,5 @@
 const Property = require("../models/propertyModel");
-
+const mongoose = require("mongoose")
 // GET /api/properties
 const getAllProperties = async (req, res) => {
   try {
@@ -26,6 +26,21 @@ const createProperty = async (req, res) => {
 
 // GET /api/properties/:propertyId
 const getPropertyById = async (req, res) => {
+  try{
+    if(!mongoose.Types.ObjectId.isValid(req.params.propertyId)){
+      return res.status(400).json({error: "Invalid property Id"});
+    }
+    const property = await Property.findById(req.params.propertyId);
+
+    if (!property){
+      return res.status(404).json({error:"Property not found"})
+
+    }
+    res.status(200).json(property);
+
+  }catch (error){
+    res.status(500).json({error: error.message });
+  }
  
 };
 
@@ -36,7 +51,21 @@ const updateProperty = async (req, res) => {
 
 // DELETE /api/properties/:propertyId
 const deleteProperty = async (req, res) => {
-  res.send("deleteProperty");
+   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.propertyId)) {
+      return res.status(400).json({ error: "Invalid property ID" });
+    }
+
+    const property = await Property.findByIdAndDelete(req.params.propertyId);
+
+    if (!property) {
+      return res.status(404).json({ error: "Property not found" });
+    }
+
+    res.status(204).json(property);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 module.exports = {
