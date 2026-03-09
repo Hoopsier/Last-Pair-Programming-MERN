@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require('../middleware/auth.js')
 const router = express.Router();
 const {
   getAllProperties,
@@ -10,12 +11,14 @@ const {
 
 // GET /api/properties
 router.get("/", getAllProperties);
+// GET /api/properties/:propertyId
+router.get("/:propertyId", getPropertyById);
 
+router.use(auth)
 // POST /api/properties
 router.post("/", createProperty);
 
-// GET /api/properties/:propertyId
-router.get("/:propertyId", getPropertyById);
+
 
 // PUT /api/properties/:propertyId
 router.put("/:propertyId", updateProperty);
